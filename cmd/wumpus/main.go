@@ -37,6 +37,7 @@ func main() {
 	// initial percept
 	percept := w.Sense()
 
+	goldPicked := false
 	for step := 0; step < maxSteps; step++ {
 		// capture pre-action render for comparison
 		before := w.Render()
@@ -59,8 +60,20 @@ func main() {
 			fmt.Println("Agent died. Simulation ends.")
 			break
 		}
-		if w.AgentHasGold {
+
+		// notify player once when gold is picked up
+		if w.AgentHasGold && !goldPicked {
 			fmt.Println("Agent grabbed the gold!")
+			goldPicked = true
+		}
+
+		// end only when the agent climbs at the starting square
+		if act == world.Climb && w.AgentX == 0 && w.AgentY == 0 {
+			if w.AgentHasGold {
+				fmt.Println("Agent climbed out with the gold! Simulation ends.")
+			} else {
+				fmt.Println("Agent climbed out (no gold). Simulation ends.")
+			}
 			break
 		}
 		if delayMs > 0 {
