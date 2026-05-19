@@ -60,6 +60,22 @@ const (
 	West
 )
 
+// DirName returns the human-readable name of a direction constant.
+func DirName(d int) string {
+	switch d {
+	case North:
+		return "North"
+	case East:
+		return "East"
+	case South:
+		return "South"
+	case West:
+		return "West"
+	default:
+		return "Unknown"
+	}
+}
+
 type World struct {
 	Width, Height int
 	Cells         [][]Cell
@@ -91,9 +107,9 @@ func New(width, height int) *World {
 	// Seed RNG for pit/wumpus/gold placement
 	rand.Seed(time.Now().UnixNano())
 
-	// Starting tile is bottom-left (0, height-1)
+	// Starting tile is bottom-left (0, 0)
 	sx := 0
-	sy := w.Height - 1
+	sy := 0
 
 	// Mark excluded cells: start and tiles adjacent to start
 	excluded := make(map[Coord]bool)

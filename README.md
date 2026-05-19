@@ -16,6 +16,8 @@ go run ./cmd/wumpus
 # or build a binary
 go build -o wumpus ./cmd/wumpus
 ./wumpus
+# or run with flags
+go run ./cmd/wumpus -steps 20 -delay 0 -human=false 
 ```
 
 Runtime flags:
@@ -40,16 +42,4 @@ Project layout
 - `pkg/world`  - world simulation and ASCII renderer
 - `pkg/agent`  - the knowledge-based agent
 
-Documentation
-- Architecture overview: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- Technical deep-dive: [docs/TECHNICAL.md](docs/TECHNICAL.md)
-
-Customization
-- Adjust the sample world in `[pkg/world/world.go](pkg/world/world.go)` (pits, wumpus, gold, and start position).
-- Improve or replace the agent in `[pkg/agent/agent.go](pkg/agent/agent.go)`.
-
-If you'd like, I can:
-- Add unit tests and a CI job
-- Improve the agent's logic (probabilistic inference / single-arrow reasoning)
-- Provide a small CLI to load world configurations from JSON
 

@@ -30,10 +30,7 @@ func main() {
 		ctrl = agent.New(w.AgentX, w.AgentY, w.AgentDir)
 	}
 
-	if !human {
-		fmt.Println("Initial world:")
-		fmt.Println(w.Render())
-	} else {
+	if human {
 		fmt.Println("Interactive human-controlled session. Use -human=false to run AI agent.")
 	}
 
@@ -41,19 +38,21 @@ func main() {
 	percept := w.Sense()
 
 	for step := 0; step < maxSteps; step++ {
+		// capture pre-action render for comparison
+		before := w.Render()
+
 		if !human {
 			// show current map for AI runs
-			fmt.Println(w.Render())
+			fmt.Println(before)
 			fmt.Printf("Percept: stench=%v breeze=%v glitter=%v bump=%v scream=%v\n", percept.Stench, percept.Breeze, percept.Glitter, percept.Bump, percept.Scream)
 		}
 
 		act := ctrl.Next(percept, w)
-		fmt.Printf("Step %d: Agent at (%d,%d) facing %d -> action: %s\n", step, w.AgentX, w.AgentY, w.AgentDir, act.String())
+		fmt.Printf("Step %d: Agent at (%d,%d) facing %s -> action: %s\n", step, w.AgentX, w.AgentY, world.DirName(w.AgentDir), act.String())
 		percept = w.Step(act)
 		ctrl.Notify(act, percept, w)
 
-		// show new world state and percept after the action
-		fmt.Println(w.Render())
+		// show percept after the action (map is printed at start of next loop)
 		fmt.Printf("Percept: stench=%v breeze=%v glitter=%v bump=%v scream=%v\n", percept.Stench, percept.Breeze, percept.Glitter, percept.Bump, percept.Scream)
 
 		if !w.AgentAlive {

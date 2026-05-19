@@ -122,7 +122,7 @@ func (a *Agent) Next(p world.Percept, w *world.World) world.Action {
 			dy := n.Y - a.Pos.Y
 			targetDir := dirForDelta(dx, dy)
 			acts := rotationActions(a.Dir, targetDir)
-			a.Plan = append(a.Plan, acts...)
+			a.Plan = append(a.Plan, acts...) // ... unpacks slice into elements
 			return a.popPlan()
 		}
 	}
